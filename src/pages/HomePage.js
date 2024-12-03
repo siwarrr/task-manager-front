@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { FaSun, FaMoon, FaSignOutAlt, FaPlus } from "react-icons/fa";
 import AuthContext from "../context/AuthContext";
 import ProjectCreationModal from "../components/ProjectCreationModal";
@@ -7,9 +6,7 @@ import ProjectList from "../components/ProjectList";
 import TaskList from "../components/TaskList";
 
 const HomePage = () => {
-    const { user, login, logout, token, isDarkMode, toggleTheme } = useContext(AuthContext);
-    const navigate = useNavigate();
-    const location = useLocation();
+    const { user, logout, token, isDarkMode, toggleTheme } = useContext(AuthContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedProject, setSelectedProject] = useState(null);
 
@@ -17,32 +14,6 @@ const HomePage = () => {
         setSelectedProject(newProject);
     };
 
-    useEffect(() => {
-    
-        const searchParams = new URLSearchParams(location.search);
-        const tokenFromUrl = searchParams.get("token");
-    
-        if (tokenFromUrl) {
-            try {
-                const payload = JSON.parse(atob(tokenFromUrl.split(".")[1])); 
-                const userFromToken = { name: payload.name, email: payload.email };
-    
-                console.log("Utilisateur extrait du token :", userFromToken);
-    
-                login(tokenFromUrl, userFromToken);
-    
-                navigate("/home", { replace: true });
-            } catch (error) {
-                navigate("/", { replace: true });
-            }
-        } else if (!user) {
-            navigate("/", { replace: true });
-        }
-    }, [location, login, navigate, user]);
-
-    if (!user) {
-        return <div>Loading user information...</div>;
-    }
     return (
         <div className={`min-h-screen ${isDarkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"}`}>
             {/* Header */}
