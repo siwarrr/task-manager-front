@@ -15,7 +15,7 @@ const OAuthButton = () => {
     const handleOAuth = () => {
         // Open a pop-up to start the OAuth process with the backend
         const popup = window.open(
-            "https://task-manager-silk-six-66.vercel.app/", // Backend URL for Google OAuth
+            "https://task-manager-silk-six-66.vercel.app/api/auth/google", // Backend URL for Google OAuth
             "_blank", // Opens in a new window
             "width=500,height=600" // Window dimensions
         );

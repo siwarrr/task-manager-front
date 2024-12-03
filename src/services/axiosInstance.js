@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: "https://task-manager-silk-six-66.vercel.app/",
+    baseURL: "https://task-manager-silk-six-66.vercel.app",
 });
 
 // Automatic addition of the token in the headers
