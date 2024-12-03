@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaSun, FaMoon, FaSignOutAlt, FaPlus } from "react-icons/fa";
 import AuthContext from "../context/AuthContext";
 import ProjectCreationModal from "../components/ProjectCreationModal";

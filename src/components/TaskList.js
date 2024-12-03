@@ -24,19 +24,24 @@ const TaskList = ({ project, token }) => {
 
     const handleAddTask = async () => {
         try {
-            const assignedTo = newTaskMember ? [newTaskMember.trim()] : [];
+            const assignedTo = newTaskMember
+                ? newTaskMember.split(",").map((email) => email.trim()).filter((email) => email)
+                : [];
+    
             const newTask = await createTask(
                 { title: newTaskTitle, project: project._id, priority: newTaskPriority, assignedTo },
                 token
             );
-            setTasks((prevTasks) => [...prevTasks, newTask.data]);
+    
+            const populatedTask = await getTasksByProject(project._id, token); 
+            setTasks(populatedTask.data);
             setNewTaskTitle("");
             setNewTaskPriority("medium");
             setNewTaskMember("");
         } catch (error) {
             console.error("Error creating task :", error.response?.data || error.message);
         }
-    };
+    };     
 
     const handleDeleteTask = async (taskId) => {
         const confirmDelete = window.confirm(
@@ -124,11 +129,16 @@ const TaskList = ({ project, token }) => {
                 </div>
             </div>
             <div className="text-sm text-gray-600 dark:text-gray-400">
-                Members: {task.assignedTo.map((member) => member.email).join(", ")}
+                Members: 
+                {task.assignedTo.length > 0
+                  ? task.assignedTo.map((member) =>
+                  member.email ? member.email : "Unknown Member"
+                  ).join(", ")
+                  : "No members assigned"}
             </div>
         </li>
-    ))}
-</ul>
+        ))}
+          </ul>
             <div className="mt-4">
                 <input 
                    type="text"
